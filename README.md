@@ -16,6 +16,52 @@ Files to copy into a target project:
 - `.codex/config.toml`
 - `agents/*.toml`
 - `templates/react/AGENTS.md` -> `AGENTS.md`
+- `templates/react/docs/*.md` -> `docs/*.md`
+
+This template follows the progressive-disclosure approach described in [A Complete Guide To AGENTS.md](https://www.aihero.dev/a-complete-guide-to-agents-md): keep root `AGENTS.md` short and move stack-specific detail into linked docs.
+
+## Fill Prompt
+
+After copying the starter files into a real project, run a prompt like this inside that project:
+
+```text
+You are filling out the AGENTS.md starter files for this repository.
+
+Context:
+- This project already contains:
+  - AGENTS.md
+  - docs/REACT.md
+  - docs/STATE.md
+  - docs/TESTING.md
+  - docs/STYLING.md
+  - docs/VALIDATION.md
+- These files are starter templates and contain TODO placeholders.
+- Your job is to replace placeholders with project-specific guidance based on the actual codebase.
+- Keep the root AGENTS.md short. Do not turn it into a giant instruction dump.
+- Follow progressive disclosure: broad rules in AGENTS.md, detailed rules in the docs files.
+
+What to do:
+1. Explore the repository in read-only mode first.
+2. Detect the actual stack, package layout, scripts, routing, state management, testing setup, and styling approach.
+3. Fill each docs/*.md file with concrete rules taken from the codebase.
+4. Keep guidance practical and specific to this repo.
+5. Remove TODOs that you can confidently replace.
+6. If something is unclear, keep a short assumption note instead of guessing.
+7. Preserve minimal diffs and do not create extra docs unless necessary.
+
+Output requirements:
+- AGENTS.md must stay compact and only point to the detailed docs.
+- docs/REACT.md should cover component structure, forms, async UI states, and performance notes.
+- docs/STATE.md should cover hooks, effects, state ownership, shared state, and data fetching.
+- docs/TESTING.md should cover test stack, query style, coverage expectations, mocking, and reliability.
+- docs/STYLING.md should cover styling system, component styling, responsive behavior, and accessibility.
+- docs/VALIDATION.md should cover required commands, targeted checks, manual verification, and review checklist.
+
+At the end:
+- summarize what you filled,
+- list assumptions,
+- list commands you used to inspect the repo.
+```
 
 ## Example Prompts
 
