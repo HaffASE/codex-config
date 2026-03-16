@@ -1,29 +1,41 @@
 # AGENTS.md
 
-Repository guidance for `codex-config`.
+## Workflow
 
-## Purpose
+For non-trivial tasks:
 
-- This repository stores reusable Codex configuration, agent presets, and project templates.
-- Treat files here as source templates, not as instructions for a React application in this repository.
+1. Start with `explorer_fast`.
+2. Escalate to `explorer_deep` if the area is broad, ambiguous, or spans multiple subsystems.
+3. Use `repo_scout` in parallel when quick evidence about routes, providers, tests, stories, flags, fixtures, or package boundaries would help.
+4. Use `docs_researcher` when the task depends on external library, framework, browser, or platform documentation.
+5. Use `planner` after discovery.
+6. Use `implementer` only after a plan exists.
+7. Use `unit_test_writer` when behavior changes or regression risk exists.
+8. Use `browser_debugger` for browser reproduction and evidence only.
+9. Use `reviewer` before finalizing meaningful changes.
 
-## Working Rules
+## Repo rules
 
-- Keep changes focused and easy to copy into another project.
-- Prefer reusable defaults over project-specific assumptions unless the file lives under a template folder.
-- Do not rename or reorganize template files without a clear compatibility reason.
-- When updating an existing preset, preserve intent and keep diffs small.
-- Document assumptions in `README.md` when a template is tailored to a specific stack.
+- Prefer the smallest viable change.
+- Preserve public APIs, route contracts, exported types, and component interfaces unless the task explicitly requires changes.
+- Avoid broad refactors, unrelated renames, formatting-only churn, and library swaps.
+- Reuse existing patterns before introducing new abstractions.
+- Keep accessibility and existing UI states intact.
 
-## Template Policy
+## Commands
 
-- Put stack-specific guidance under `templates/`, not in the repository root.
-- Keep root-level instructions neutral and applicable to a config repository.
-- Avoid duplicating the same guidance across multiple presets unless the duplication is intentional for portability.
-- Favor strong defaults, but leave room for per-project overrides.
+- Inspect `package.json` scripts first.
+- Prefer `pnpm`.
+- Prefer the smallest relevant workspace- or package-scoped command.
+- Do not invent commands when repo scripts already exist.
 
 ## Validation
 
-- Check formatting and file paths after edits.
-- Re-read changed templates for internal consistency.
-- If a template references commands, prefer realistic defaults and avoid inventing unsupported tools.
+- Run the smallest relevant checks for changed behavior.
+- Update nearby tests when practical.
+- Report commands run and remaining risks.
+
+## Planning
+
+- Keep plans concise.
+- End each plan with unresolved questions, if any.

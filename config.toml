@@ -1,0 +1,55 @@
+model_provider = "codex-lb"
+
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+plan_mode_reasoning_effort = "xhigh"
+
+# Maximum values: 1050k context window and 700k auto compact token limit
+model_context_window=404000
+model_auto_compact_token_limit=300000
+service_tier = "fast"
+
+[features]
+multi_agent = true
+js_repl = true
+fast_mode = true
+
+[agents]
+max_threads = 5
+max_depth = 1
+
+[agents.explorer_fast]
+description = "Fast read-heavy scout for quick repo discovery."
+config_file = "agents/explorer-fast.toml"
+
+[agents.explorer_deep]
+description = "Deep read-only explorer for large and ambiguous tasks."
+config_file = "agents/explorer-deep.toml"
+
+[agents.docs_researcher]
+description = "Researches external official documentation, release notes, migration guides, and API behavior relevant to the task."
+config_file = "agents/docs-researcher.toml"
+
+[agents.planner]
+description = "Build a small, safe, step-by-step implementation plan from discovery evidence."
+config_file = "agents/planner.toml"
+
+[agents.repo_scout]
+description = "Fast read-heavy scout for routes, tests, flags, stories, fixtures and package boundaries."
+config_file = "agents/repo-scout.toml"
+
+[agents.implementer]
+description = "Applies the smallest defensible changes to implement plan and run smallest relevant validations"
+config_file = "agents/implementer.toml"
+
+[agents.reviewer]
+description = "Read-only reviewer focused on correctness, regressions, coupling, contracts and test risks."
+config_file = "agents/reviewer.toml"
+
+[agents.unit-test-writer]
+description = "Adds focused unit/integration tests with minimal production-code disturbance."
+config_file = "agents/unit-test-writer.toml"
+
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "five-hour-limit", "weekly-limit", "context-window-size", "git-branch", "total-input-tokens", "total-output-tokens", "fast-mode", "used-tokens"]
