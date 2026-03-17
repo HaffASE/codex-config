@@ -1,7 +1,7 @@
 # model = "gpt-5.3-codex-spark"
 # model_reasoning_effort = "low"
 
-model = "gpt-5.3-codex"
+model = "gpt-5.4-mini"
 model_reasoning_effort = "low"
 
 sandbox_mode = "read-only"

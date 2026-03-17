@@ -1,4 +1,4 @@
-model = "gpt-5.3-codex"
+model = "gpt-5.3-mini"
 model_reasoning_effort = "low"
 
 sandbox_mode = "read-only"

@@ -1,12 +1,10 @@
-model_provider = "codex-lb"
-
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 personality = "pragmatic"
 plan_mode_reasoning_effort = "xhigh"
 
 # Maximum values: 1050k context window and 700k auto compact token limit
-model_context_window=404000
+model_context_window=400000
 model_auto_compact_token_limit=300000
 service_tier = "fast"
 
