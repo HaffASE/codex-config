@@ -8,32 +8,26 @@ For non-trivial tasks:
 2. Escalate to `explorer_deep` if the area is broad, ambiguous, or spans multiple subsystems.
 3. Use `repo_scout` in parallel when quick evidence about routes, providers, tests, stories, flags, fixtures, or package boundaries would help.
 4. Use `docs_researcher` when the task depends on external library, framework, browser, platform, or API documentation.
-5. Use `planner` after discovery.
-6. Use `implementer` only after a plan exists.
-7. Use `unit_test_writer` when behavior changes or regression risk exists.
-8. Use `browser_debugger` for browser reproduction and evidence only.
-9. Use `reviewer` before finalizing meaningful changes.
+5. Use `planner` only when the main agent is blocked on an implementation plan that cannot be completed safely from existing discovery.
+6. Do not use `planner` for redundant checklists, restating an accepted plan, or non-blocking side work.
+7. If the user already provided or approved a complete plan, do not spawn `planner`.
+8. Use `implementer` only after a plan exists and only for a bounded write task.
+9. Use `unit_test_writer` when behavior changes or regression risk exists.
+10. Use `reviewer` before finalizing meaningful changes.
 
 ## Subagent delegation
 
 - The main agent owns the plan, critical path, integration, validation, and final task tracking.
 - Subagents are helpers for bounded side tasks only. They do not own a full phase or end-to-end workstream.
-- Before spawning a subagent, define:
-  - the exact task boundary
-  - the expected output
-  - the validation command, if relevant
-  - the merge point where the result will be reviewed
-- Delegate only work that can proceed in parallel without blocking the next local step.
-- Good delegation targets:
-  - read-only repo surveys
-  - isolated module changes with a clear file boundary
-  - disjoint test work in named files
-  - docs updates that do not overlap active code edits
-  - external documentation research
-- Do not delegate vague, overlapping, or tightly coupled work.
-- When a subagent returns, review its output before continuing overlapping local work.
-- Do not ignore returned work. Integrate it, amend it, or reject it with a concrete reason.
-- Validate subagent output before treating it as complete.
+- Before spawning a subagent, define the task boundary, expected output, validation command if relevant, and merge point.
+- Delegate only work that can proceed in parallel without blocking the next concrete local step.
+- Good delegation targets include read-only repo surveys, isolated module changes, disjoint test work in named files, non-overlapping docs updates, and external documentation research.
+- Do not delegate vague, overlapping, tightly coupled, or non-critical work.
+- Do not spawn exploratory subagents for coverage; spawn them only when their result is expected to influence a real decision.
+- Prefer at most one exploratory or planning subagent at a time unless parallel discovery is clearly faster and non-overlapping.
+- When an explorer-style subagent is surveying an area, the main agent must not perform a second broad survey of the same area in parallel.
+- When a subagent returns, review and validate its output before treating it as complete.
+- Do not ignore returned work. Integrate it, amend it, reject it with a concrete reason, or explicitly mark it unnecessary.
 - If local work and subagent work overlap, the main agent reconciles the final canonical version.
 
 ## Repo rules
