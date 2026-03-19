@@ -49,6 +49,3 @@ config_file = "agents/unit-test-writer.toml"
 
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "five-hour-limit", "weekly-limit", "context-window-size", "git-branch", "total-input-tokens", "total-output-tokens", "fast-mode", "used-tokens"]
-
-[projects."/Users/sergeikustikov/Projects"]
-trust_level = "trusted"
