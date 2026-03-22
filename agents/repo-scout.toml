@@ -1,9 +1,6 @@
 model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "low"
 
-model_context_window=272000
-model_auto_compact_token_limit=220000
-
 sandbox_mode = "read-only"
 approval_policy = "never"
 web_search = "disabled"
