@@ -1,0 +1,43 @@
+{
+  "built_for": "native Codex",
+  "date": "2026-09-27",
+  "sources": [
+    {
+      "materialized_filename": "feature-discovery-kit-v0.2.0.zip",
+      "sha256": "4b49c759fa6956bca7c4ea2d86d2d470aa2d61cb945a5ef158073ea099a37862"
+    },
+    {
+      "materialized_filename": "review-kit-v0.1.0.zip",
+      "sha256": "fdd80e2ef79799a7d101f107181721d47dd160defcf02454cd4afb9c39c09c5f"
+    },
+    {
+      "materialized_filename": "SKILL(5).md",
+      "sha256": "54c79db4ea319bf3af569f8df195675f84cd3695a5e8e419a896b96f32f2598c"
+    },
+    {
+      "materialized_filename": "SKILL.md",
+      "sha256": "55244c009be72f8af6ffc057785d95028760802c1eb05798d733c2b4574bd635"
+    },
+    {
+      "materialized_filename": "SKILL_2.md",
+      "sha256": "bbaf2d7b2e03e538daca97b6003160fb1c0d359632f00f948eca9ea7ddc1af06"
+    },
+    {
+      "materialized_filename": "SKILL_3.md",
+      "sha256": "522262727fb8c1f06e255da205363e93f1d5de235903e1c20ba54a878d980f7a"
+    },
+    {
+      "materialized_filename": "SKILL_4.md",
+      "sha256": "419a3c489550d81d4a14b0ceea62eeee51300d27d600a00b085d2e75a1ad1283"
+    },
+    {
+      "materialized_filename": "SKILL_5.md",
+      "sha256": "6edfc1e0a5f41ac4012b2d054825adfac5a166dd765e0620944f0a690c631101"
+    },
+    {
+      "materialized_filename": "SKILL(3).md",
+      "sha256": "6f342780a90bd8483491b71e6000f1c1bdd001ec4f484830bbd3ad83018ad593"
+    }
+  ],
+  "scope_note": "Selected prior workflow artifacts actually retrieved. Not a dump of the user machine or all OMX functionality."
+}

@@ -1,0 +1,7 @@
+# Optional native settings, merged MANUALLY into existing config.toml.
+# Do not replace your config or create a duplicate [agents] table.
+# The installer does not apply this file.
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 3
+# Models/effort intentionally omitted: inherit current parent settings.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Deep Interview"
+  short_description: "Manual deep interview workflow"
+  default_prompt: "Use $deep-interview for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false

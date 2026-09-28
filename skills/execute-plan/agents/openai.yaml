@@ -1,0 +1,6 @@
+interface:
+  display_name: "Execute Plan"
+  short_description: "Manual execute plan workflow"
+  default_prompt: "Use $execute-plan for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false

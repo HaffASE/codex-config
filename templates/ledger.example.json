@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "replace-with-task-slug",
+  "objective": "Describe the authorized task scope",
+  "plan_ref": null,
+  "source_ref": {
+    "head": null,
+    "dirty_snapshot": null
+  },
+  "entries": [
+    {
+      "id": "slice-0",
+      "state": "pending",
+      "evidence": [],
+      "note": ""
+    }
+  ],
+  "next_action": null
+}

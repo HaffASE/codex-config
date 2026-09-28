@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "task_id": "REPLACE_ME",
+  "profile": "bff-crud",
+  "authors": [
+    "REPLACE_ME"
+  ],
+  "repositories": [
+    {
+      "id": "REPO-FRONTEND",
+      "revision": "REPLACE_ME",
+      "working_tree": "unavailable",
+      "scope": "REPLACE_ME",
+      "worktree_snapshot_ref": ""
+    }
+  ],
+  "capabilities": [
+    {
+      "name": "native-analysis",
+      "status": "unverified",
+      "evidence": "REPLACE_ME"
+    },
+    {
+      "name": "user-interaction",
+      "status": "unverified",
+      "evidence": "REPLACE_ME"
+    },
+    {
+      "name": "native-planning",
+      "status": "unverified",
+      "evidence": "REPLACE_ME"
+    },
+    {
+      "name": "native-council",
+      "status": "unverified",
+      "evidence": "REPLACE_ME"
+    },
+    {
+      "name": "independent-review",
+      "status": "unverified",
+      "evidence": "REPLACE_ME"
+    }
+  ],
+  "council": {
+    "enabled": false,
+    "delegation_ref": "",
+    "allowed_topics": []
+  },
+  "review_policy": {
+    "roles": [
+      "architect",
+      "critic"
+    ],
+    "max_rounds": 3,
+    "require_model_diversity": false,
+    "per_file_verdicts": true,
+    "reviewer_constraints": {}
+  },
+  "requirements": [],
+  "evidence": [],
+  "decisions": [],
+  "tasks": [],
+  "tests": [],
+  "api_inventory_scope": "REPLACE_ME",
+  "api_inventory_evidence_ids": [],
+  "api_inventory": [],
+  "open_questions": [],
+  "prerequisites": []
+}

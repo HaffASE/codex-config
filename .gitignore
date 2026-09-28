@@ -1,7 +1,4 @@
+__pycache__/
+*.pyc
 .DS_Store
-node_modules/
-dist/
-build/
-.env
-.env.*
-!.env.example
+.local-validation/

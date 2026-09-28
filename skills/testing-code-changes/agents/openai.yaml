@@ -1,0 +1,6 @@
+interface:
+  display_name: "Testing Code Changes"
+  short_description: "Manual testing code changes workflow"
+  default_prompt: "Use $testing-code-changes for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false

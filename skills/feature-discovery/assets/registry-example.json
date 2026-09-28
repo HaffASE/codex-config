@@ -1,0 +1,128 @@
+{
+  "notice": "ILLUSTRATIVE RECORD SHAPES ONLY. Not a real repository finding or approved plan. Replace every example with inspected evidence.",
+  "requirement": {
+    "id": "REQ-001",
+    "text": "The saved reference is usable by the intended execution path.",
+    "in_scope": true
+  },
+  "source_evidence": {
+    "id": "EVD-001",
+    "kind": "source",
+    "repository_id": "REPO-BACKEND",
+    "revision": "REPLACE_ME",
+    "ref": "path/to/file.go:Symbol:line",
+    "claim": "REPLACE_ME"
+  },
+  "runtime_evidence": {
+    "id": "EVD-002",
+    "kind": "runtime",
+    "ref": "evidence/redacted-runtime.txt",
+    "claim": "REPLACE_ME",
+    "environment": "REPLACE_ME",
+    "observed_at": "REPLACE_ME",
+    "build_ref": "REPLACE_ME"
+  },
+  "decision": {
+    "id": "DEC-001",
+    "decision": "Resolve references on the backend; never send secret values to the browser.",
+    "origin": "user",
+    "category": "security",
+    "accepted": true,
+    "authority_ref": "REPLACE_ME",
+    "evidence_ids": [
+      "EVD-001"
+    ]
+  },
+  "task": {
+    "id": "TASK-001",
+    "title": "Implement the missing resolver after contract agreement.",
+    "owner": "backend",
+    "files": [
+      "path/to/resolver.go"
+    ],
+    "outcome": "The agreed reference resolves or returns the specified error.",
+    "requirement_ids": [
+      "REQ-001"
+    ],
+    "decision_ids": [
+      "DEC-001"
+    ],
+    "depends_on": [],
+    "test_ids": [
+      "TEST-001"
+    ]
+  },
+  "test": {
+    "id": "TEST-001",
+    "requirement_ids": [
+      "REQ-001"
+    ],
+    "stage": "test-first",
+    "level": "integration",
+    "method": "Exercise the consumer with a non-secret fake provider.",
+    "red_oracle": "The required resolver behavior is absent; the specific behavior assertion fails.",
+    "expected": "Correct lookup with project isolation and redacted errors.",
+    "status": "planned"
+  },
+  "api_row": {
+    "id": "API-001",
+    "operation": "Example operation / variant",
+    "disposition": "planned",
+    "requirement_ids": [
+      "REQ-001"
+    ],
+    "task_ids": [
+      "TASK-001"
+    ],
+    "coverage": {
+      "contract": {
+        "state": "unknown",
+        "evidence_ids": [],
+        "reason": "REPLACE_ME"
+      },
+      "handler": {
+        "state": "unknown",
+        "evidence_ids": [],
+        "reason": "REPLACE_ME"
+      },
+      "persistence": {
+        "state": "unknown",
+        "evidence_ids": [],
+        "reason": "REPLACE_ME"
+      },
+      "execution": {
+        "state": "unknown",
+        "evidence_ids": [],
+        "reason": "REPLACE_ME"
+      },
+      "ui": {
+        "state": "unknown",
+        "evidence_ids": [],
+        "reason": "REPLACE_ME"
+      }
+    },
+    "resolution_task_ids": [
+      "TASK-001"
+    ]
+  },
+  "question": {
+    "id": "Q-001",
+    "question": "REPLACE_ME",
+    "blocking": true,
+    "status": "open",
+    "decision_ids": []
+  },
+  "prerequisite": {
+    "id": "PRE-001",
+    "condition": "REPLACE_ME",
+    "owner": "backend",
+    "status": "open",
+    "blocks_task_ids": [
+      "TASK-002"
+    ],
+    "resolution_task_ids": [
+      "TASK-001"
+    ],
+    "evidence_ids": []
+  }
+}

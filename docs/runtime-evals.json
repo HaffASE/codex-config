@@ -1,0 +1,103 @@
+{
+  "purpose": "Manual native runtime evaluation; not executed by check.py",
+  "baseline": "NOT_RUN",
+  "candidate": "NOT_RUN",
+  "cases": [
+    {
+      "id": "discovery",
+      "behavior": "Native skills and actual instruction chain",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "native-spawn",
+      "behavior": "Real nc_scout and nc_reviewer instances",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "planning-only",
+      "behavior": "No product edits or Goal from planning",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "decision-reuse",
+      "behavior": "Accepted decisions survive interview handoff",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "small-fix",
+      "behavior": "No unnecessary full pipeline for known local bug",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "frozen-plan",
+      "behavior": "Actual digest-bound independent reviews",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "missing-browser",
+      "behavior": "No fabricated visual verification",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "missing-spawn",
+      "behavior": "No simulated independent full approval",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "ownership",
+      "behavior": "Disjoint writes and single shared-artifact writer",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "fresh-evidence",
+      "behavior": "Relevant edits invalidate affected prior evidence",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "review-budget",
+      "behavior": "Required lanes and honest zero findings",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    },
+    {
+      "id": "goal-lifecycle",
+      "behavior": "Optional native goal respects budget and stopping",
+      "status": "NOT_RUN",
+      "codex_version": null,
+      "observed_model": null,
+      "evidence": []
+    }
+  ]
+}

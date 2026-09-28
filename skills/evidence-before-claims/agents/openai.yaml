@@ -1,0 +1,6 @@
+interface:
+  display_name: "Evidence Before Claims"
+  short_description: "Manual evidence before claims workflow"
+  default_prompt: "Use $evidence-before-claims for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false

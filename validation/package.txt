@@ -1,0 +1,49 @@
+test_active_installation_and_managed_edit_are_reported_read_only (test_install.DoctorTests.test_active_installation_and_managed_edit_are_reported_read_only) ... ok
+test_duplicate_skills_and_omx_marker_do_not_echo_secret (test_install.DoctorTests.test_duplicate_skills_and_omx_marker_do_not_echo_secret) ... ok
+test_missing_codex_and_wrong_config_shape_are_reported (test_install.DoctorTests.test_missing_codex_and_wrong_config_shape_are_reported) ... ok
+test_agents_only_installs_no_skills (test_install.InstallationTests.test_agents_only_installs_no_skills) ... ok
+test_apply_installs_links_and_native_agents_without_config (test_install.InstallationTests.test_apply_installs_links_and_native_agents_without_config) ... ok
+test_collision_blocks_all_writes (test_install.InstallationTests.test_collision_blocks_all_writes) ... ok
+test_config_auth_hooks_and_omx_are_untouched (test_install.InstallationTests.test_config_auth_hooks_and_omx_are_untouched) ... ok
+test_doctor_detects_new_guidance_in_source_package (test_install.InstallationTests.test_doctor_detects_new_guidance_in_source_package) ... ok
+test_doctor_does_not_offer_update_for_identical_unowned_asset (test_install.InstallationTests.test_doctor_does_not_offer_update_for_identical_unowned_asset) ... ok
+test_dry_run_creates_nothing (test_install.InstallationTests.test_dry_run_creates_nothing) ... ok
+test_explicit_codex_home_keeps_skills_at_home (test_install.InstallationTests.test_explicit_codex_home_keeps_skills_at_home) ... ok
+test_guidance_outside_block_edits_survive_remove_but_block_edit_refuses (test_install.InstallationTests.test_guidance_outside_block_edits_survive_remove_but_block_edit_refuses) ... ok
+test_guidance_preserves_original_bytes_and_is_idempotent (test_install.InstallationTests.test_guidance_preserves_original_bytes_and_is_idempotent) ... ok
+test_home_override_does_not_use_process_codex_home (test_install.InstallationTests.test_home_override_does_not_use_process_codex_home) ... ok
+test_lifecycle_dry_run_does_not_write (test_install.InstallationTests.test_lifecycle_dry_run_does_not_write) ... ok
+test_lifecycle_rejects_tampered_inventory_and_backup_paths (test_install.InstallationTests.test_lifecycle_rejects_tampered_inventory_and_backup_paths) ... ok
+test_lock_refuses_install_and_preserves_existing_lock (test_install.InstallationTests.test_lock_refuses_install_and_preserves_existing_lock) ... ok
+test_malformed_guidance_markers_refuse (test_install.InstallationTests.test_malformed_guidance_markers_refuse) ... ok
+test_override_refuses_guidance_without_other_changes (test_install.InstallationTests.test_override_refuses_guidance_without_other_changes) ... ok
+test_replace_and_restore_original_directory_and_broken_symlink (test_install.InstallationTests.test_replace_and_restore_original_directory_and_broken_symlink) ... ok
+test_restore_refuses_a_different_home (test_install.InstallationTests.test_restore_refuses_a_different_home) ... ok
+test_restore_refuses_new_user_edits_before_touching_anything (test_install.InstallationTests.test_restore_refuses_new_user_edits_before_touching_anything) ... ok
+test_restore_rolls_back_if_copy_fails_after_a_prior_target (test_install.InstallationTests.test_restore_rolls_back_if_copy_fails_after_a_prior_target) ... ok
+test_rollback_restores_written_targets_after_injected_failure (test_install.InstallationTests.test_rollback_restores_written_targets_after_injected_failure) ... ok
+test_second_apply_is_idempotent (test_install.InstallationTests.test_second_apply_is_idempotent) ... ok
+test_symlinked_managed_parent_refuses (test_install.InstallationTests.test_symlinked_managed_parent_refuses) ... ok
+test_update_and_remove_refuse_user_edits_without_writes (test_install.InstallationTests.test_update_and_remove_refuse_user_edits_without_writes) ... ok
+test_update_foreign_collision_requires_replace_and_remove_restores_it (test_install.InstallationTests.test_update_foreign_collision_requires_replace_and_remove_restores_it) ... ok
+test_update_reconciles_changed_and_retired_assets_then_remove (test_install.InstallationTests.test_update_reconciles_changed_and_retired_assets_then_remove) ... ok
+test_update_repoints_skills_after_source_package_moves (test_install.InstallationTests.test_update_repoints_skills_after_source_package_moves) ... ok
+test_update_rollback_preserves_active_inventory_and_managed_targets (test_install.InstallationTests.test_update_rollback_preserves_active_inventory_and_managed_targets) ... ok
+test_agent_permission_defaults (test_package.PackageTests.test_agent_permission_defaults) ... ok
+test_custom_agent_schema_and_model_inheritance (test_package.PackageTests.test_custom_agent_schema_and_model_inheritance) ... ok
+test_fourteen_review_dimensions_retained (test_package.PackageTests.test_fourteen_review_dimensions_retained) ... ok
+test_frontmatter_and_native_manual_policy (test_package.PackageTests.test_frontmatter_and_native_manual_policy) ... ok
+test_json_sources_parse (test_package.PackageTests.test_json_sources_parse) ... ok
+test_no_active_omx_runtime_in_entrypoints (test_package.PackageTests.test_no_active_omx_runtime_in_entrypoints) ... ok
+test_optional_config_is_valid_without_model_override (test_package.PackageTests.test_optional_config_is_valid_without_model_override) ... ok
+test_python_sources_parse (test_package.PackageTests.test_python_sources_parse) ... ok
+test_release_manifest_and_zip_are_reproducible (test_package.PackageTests.test_release_manifest_and_zip_are_reproducible) ... ok
+test_role_references_exist (test_package.PackageTests.test_role_references_exist) ... ok
+test_skill_catalog (test_package.PackageTests.test_skill_catalog) ... ok
+test_skill_relative_links_resolve (test_package.PackageTests.test_skill_relative_links_resolve) ... ok
+test_source_manifest_is_not_a_claim_of_host_access (test_package.PackageTests.test_source_manifest_is_not_a_claim_of_host_access) ... ok
+
+----------------------------------------------------------------------
+Ran 44 tests in 1.272s
+
+OK

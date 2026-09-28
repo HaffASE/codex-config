@@ -1,0 +1,6 @@
+interface:
+  display_name: "Skill Evaluation"
+  short_description: "Manual skill evaluation workflow"
+  default_prompt: "Use $skill-evaluation for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false

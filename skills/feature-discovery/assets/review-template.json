@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "revision": "r01",
+  "role": "architect",
+  "reviewer_id": "REPLACE_ME",
+  "provider": "REPLACE_ME",
+  "model": "REPLACE_ME",
+  "completed_at": "REPLACE_ME",
+  "packet_digest": "REPLACE_ME",
+  "mode": "full",
+  "reviewed_files": [],
+  "inherited_files": [],
+  "acknowledged_deletions": [],
+  "summary": "REPLACE_ME",
+  "verdict": "request_changes",
+  "findings": [
+    {
+      "id": "F-ARCH-001",
+      "severity": "major",
+      "status": "open",
+      "message": "REPLACE_ME: impact, artifact/source location, required resolution",
+      "resolution": ""
+    }
+  ],
+  "model_alias": "REPLACE_ME",
+  "effort": "REPLACE_ME",
+  "file_verdicts": {}
+}

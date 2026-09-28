@@ -1,0 +1,6 @@
+interface:
+  display_name: "Feature Discovery"
+  short_description: "Manual feature discovery workflow"
+  default_prompt: "Use $feature-discovery for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false

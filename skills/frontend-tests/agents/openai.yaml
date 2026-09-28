@@ -1,0 +1,6 @@
+interface:
+  display_name: "Frontend Tests"
+  short_description: "Manual frontend tests workflow"
+  default_prompt: "Use $frontend-tests for the supplied task within its stated scope."
+policy:
+  allow_implicit_invocation: false
