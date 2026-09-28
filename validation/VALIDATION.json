@@ -1,11 +1,11 @@
 {
-  "checked_at_utc": "2026-09-27T20:24:10.067165+00:00",
+  "checked_at_utc": "2026-09-28T16:50:43.308525+00:00",
   "python_version": "3.14.7",
   "suites": [
     {
       "suite": "package",
       "exit_code": 0,
-      "tests": 44,
+      "tests": 57,
       "status": "PASS"
     },
     {
@@ -15,7 +15,7 @@
       "status": "PASS"
     }
   ],
-  "total_tests": 139,
+  "total_tests": 152,
   "result": "PASS",
   "scope": "Static structure and local deterministic filesystem/planning validators only",
   "live_codex_session": "NOT_RUN",

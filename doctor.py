@@ -9,6 +9,7 @@ import re
 import shutil
 import subprocess
 import sys
+sys.dont_write_bytecode = True
 import install as kit_install
 try:
     import tomllib
@@ -32,14 +33,129 @@ def scan(path: Path, findings: list[dict]) -> None:
             findings.append({'kind':'possible_omx_reference','path':str(path),'line':i,
                              'note':'Inspect locally; a historical mention is not a live dependency.'})
 
+
+def skill_frontmatter_name(path: Path) -> str | None:
+    """Read only a small, explicit SKILL.md frontmatter name."""
+    try:
+        if not path.is_file() or path.stat().st_size > 65536:
+            return None
+        lines=path.read_text(encoding='utf-8').splitlines()
+    except (OSError,UnicodeError):
+        return None
+    if not lines or lines[0].strip()!='---':
+        return None
+    try:
+        closing=next(i for i,line in enumerate(lines[1:],1) if line.strip()=='---')
+    except StopIteration:
+        return None
+    names=[]
+    for line in lines[1:closing]:
+        match=re.fullmatch(r'name:\s*(?:"([^"]+)"|\'([^\']+)\'|([a-z][a-z0-9_-]*))\s*',line)
+        if match:
+            names.append(next(value for value in match.groups() if value is not None))
+    return names[0] if len(names)==1 and kit_install.NAME.fullmatch(names[0]) else None
+
+
+def focused_skill(name: str, home: Path, codex: Path, repo: Path | None) -> int:
+    roots=[home/'.agents/skills',codex/'skills']
+    if repo:
+        roots += [repo/'.agents/skills',repo/'.codex/skills']
+    target=roots[0]/name
+    package=kit_install.ROOT/'skills'/name
+    active=kit_install.active_path(codex)
+    result={'skill':name,'package_present':False,
+            'inventory_state':'absent','managed_target':{'path':str(target),'state':'indeterminate'},
+            'ownership':'indeterminate','candidate_roots':[str(root) for root in roots],
+            'possible_collisions':[],'collision_verification':'not_verified',
+            'source_bytes_verified':False,'runtime_discovery':'not_verified'}
+    def emit(code: int) -> int:
+        print(json.dumps(result,ensure_ascii=False,separators=(',',':')))
+        return code
+    if not kit_install.NAME.fullmatch(name):
+        result['skill']=None
+        result['error']='invalid_skill_name'
+        return emit(2)
+    locations={'home':str(home),'codex':str(codex),'skills':str(roots[0])}
+    try:
+        kit_install.safe_parents(target,home)
+        kit_install.safe_parents(active,codex)
+        if package.is_symlink():
+            result['error']='unsafe_package_path'
+            return emit(2)
+        result['package_present']=package.is_dir() and (package/'SKILL.md').is_file()
+        inventory=None
+        if active.exists() or active.is_symlink():
+            try:
+                _,_,inventory=kit_install.read_inventory(locations)
+                result['inventory_state']='valid'
+            except (kit_install.InstallError,OSError,ValueError,KeyError,TypeError):
+                result['inventory_state']='drift'
+                result['error']='inventory_validation_failed'
+                return emit(2)
+        record=next((rec for rec in inventory['records'] if rec['target']==str(target)),None) if inventory else None
+        if not result['package_present'] and record is None:
+            result['ownership']='unmanaged'
+            result['error']='unknown_skill'
+            return emit(2)
+        if record is not None and not record['installed'].startswith('link:'):
+            result['error']='invalid_managed_skill_record'
+            return emit(2)
+        result['ownership']='recorded' if record else 'unmanaged'
+        if record and not result['package_present']:
+            state='retired'
+        elif target.is_symlink():
+            if not target.exists():
+                state='broken_link' if record else 'foreign_broken'
+            elif target.resolve()==package.resolve():
+                state='link_current'
+            else:
+                state='stale_link' if record else 'foreign'
+        elif target.exists():
+            state='foreign'
+        else:
+            state='missing'
+        result['managed_target']['state']=state
+        for root in roots:
+            boundary=repo if repo and root.is_relative_to(repo) else (codex if root.is_relative_to(codex) else home)
+            kit_install.safe_parents(root/name,boundary)
+            if root.is_symlink():
+                result['managed_target']['state']='indeterminate'
+                result['ownership']='indeterminate'
+                result['error']='unsafe_candidate_root'
+                return emit(2)
+            if not root.exists():
+                continue
+            if not root.is_dir():
+                result['managed_target']['state']='indeterminate'
+                result['ownership']='indeterminate'
+                result['error']='unsafe_candidate_root'
+                return emit(2)
+            for entry in sorted(root.iterdir()):
+                by=[]
+                if entry.name==name:
+                    by.append('directory_basename')
+                if skill_frontmatter_name(entry/'SKILL.md')==name:
+                    by.append('frontmatter_name')
+                if by and (entry!=target or state not in {'link_current','missing','retired'}):
+                    result['possible_collisions'].append({'path':str(entry),'matched_by':by})
+    except (kit_install.InstallError,OSError,ValueError,KeyError,TypeError):
+        result['managed_target']['state']='indeterminate'
+        result['ownership']='indeterminate'
+        result['error']='unsafe_or_unreadable_path'
+        return emit(2)
+    return emit(0)
+
 def main() -> int:
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--home'); p.add_argument('--codex-home'); p.add_argument('--repo')
+    p.add_argument('--skill',help='Read-only focused status for one packaged or recorded skill')
     a=p.parse_args()
     home=Path(a.home).expanduser().resolve() if a.home else Path.home().resolve()
     selected=a.codex_home or (os.environ.get('CODEX_HOME') if not a.home else None)
     codex=Path(selected).expanduser().resolve() if selected else home/'.codex'
     repo=Path(a.repo).expanduser().resolve() if a.repo else None
+    if a.skill is not None:
+        return focused_skill(a.skill,home,codex,repo)
     out={'codex_home':str(codex),'skills_root':str(home/'.agents/skills'),
          'native_runtime':'not_verified','model_authentication':'not_probed',
          'goal_support':'confirm in the installed interactive client',

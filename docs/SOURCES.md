@@ -1,6 +1,7 @@
 # Sources, compatibility, and provenance
 
-Documentation inspected on 2026-09-27. The kit targets the documented local native
+Native Codex references were inspected during the 2026-09-27 kit build; CodexLoom
+documentation was inspected on 2026-09-28. The kit targets the documented local native
 Codex skill and standalone custom-agent surfaces, not a claimed universal minimum
 version. The user's installed client, account, model availability and permissions
 were not observed. Runtime capabilities must be checked in the actual session.
@@ -55,6 +56,18 @@ The previous scoped execution-handoff and planning records informed the authorit
 boundaries. No original production repository, deployed API, historical model run,
 private external tool or local user configuration was revalidated in this build.
 User-specific code/credentials and unrelated Library files are not included.
+
+## External design reference
+
+CodexLoom documentation was inspected for its bounded Topic brief, per-skill status,
+and staged operations:
+https://github.com/yan5xu/codexloom/blob/main/docs/topics.md,
+https://github.com/yan5xu/codexloom/blob/main/docs/skills.md, and
+https://github.com/yan5xu/codexloom/blob/main/docs/operations.md. The native kit
+adapts only the task-handoff, diagnosis, and update concepts. CodexLoom's Hub,
+long-lived Agent/Team identity, Messages, Triggers, external connectors and WebUI
+remain outside this package. Its code/text was not copied; CodexLoom is published
+under Elastic License 2.0: https://github.com/yan5xu/codexloom/blob/main/LICENSE.
 
 ## Deliberate non-equivalence
 

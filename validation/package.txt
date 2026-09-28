@@ -1,6 +1,18 @@
 test_active_installation_and_managed_edit_are_reported_read_only (test_install.DoctorTests.test_active_installation_and_managed_edit_are_reported_read_only) ... ok
 test_duplicate_skills_and_omx_marker_do_not_echo_secret (test_install.DoctorTests.test_duplicate_skills_and_omx_marker_do_not_echo_secret) ... ok
 test_missing_codex_and_wrong_config_shape_are_reported (test_install.DoctorTests.test_missing_codex_and_wrong_config_shape_are_reported) ... ok
+test_different_directory_with_same_frontmatter_name_is_a_possible_collision (test_install.FocusedSkillDoctorTests.test_different_directory_with_same_frontmatter_name_is_a_possible_collision) ... ok
+test_documented_plain_python_invocation_does_not_create_source_pycache (test_install.FocusedSkillDoctorTests.test_documented_plain_python_invocation_does_not_create_source_pycache) ... ok
+test_focused_mode_skips_codex_binary_and_config_probe (test_install.FocusedSkillDoctorTests.test_focused_mode_skips_codex_binary_and_config_probe) ... ok
+test_foreign_directory_and_broken_link_are_reported (test_install.FocusedSkillDoctorTests.test_foreign_directory_and_broken_link_are_reported) ... ok
+test_identical_unowned_link_remains_unmanaged_after_install (test_install.FocusedSkillDoctorTests.test_identical_unowned_link_remains_unmanaged_after_install) ... ok
+test_indented_frontmatter_name_is_ignored_and_top_level_name_is_recognized (test_install.FocusedSkillDoctorTests.test_indented_frontmatter_name_is_ignored_and_top_level_name_is_recognized) ... ok
+test_installed_link_is_recorded_and_current (test_install.FocusedSkillDoctorTests.test_installed_link_is_recorded_and_current) ... ok
+test_invalid_skill_name_is_rejected_without_path_access (test_install.FocusedSkillDoctorTests.test_invalid_skill_name_is_rejected_without_path_access) ... ok
+test_inventory_drift_from_unrelated_agent_or_skill_is_indeterminate (test_install.FocusedSkillDoctorTests.test_inventory_drift_from_unrelated_agent_or_skill_is_indeterminate) ... ok
+test_missing_skill_before_install_is_unmanaged (test_install.FocusedSkillDoctorTests.test_missing_skill_before_install_is_unmanaged) ... ok
+test_repo_agents_symlinked_parent_refuses_without_scanning_target (test_install.FocusedSkillDoctorTests.test_repo_agents_symlinked_parent_refuses_without_scanning_target) ... ok
+test_source_edit_at_same_link_path_is_not_claimed_verified (test_install.FocusedSkillDoctorTests.test_source_edit_at_same_link_path_is_not_claimed_verified) ... ok
 test_agents_only_installs_no_skills (test_install.InstallationTests.test_agents_only_installs_no_skills) ... ok
 test_apply_installs_links_and_native_agents_without_config (test_install.InstallationTests.test_apply_installs_links_and_native_agents_without_config) ... ok
 test_collision_blocks_all_writes (test_install.InstallationTests.test_collision_blocks_all_writes) ... ok
@@ -26,6 +38,7 @@ test_second_apply_is_idempotent (test_install.InstallationTests.test_second_appl
 test_symlinked_managed_parent_refuses (test_install.InstallationTests.test_symlinked_managed_parent_refuses) ... ok
 test_update_and_remove_refuse_user_edits_without_writes (test_install.InstallationTests.test_update_and_remove_refuse_user_edits_without_writes) ... ok
 test_update_foreign_collision_requires_replace_and_remove_restores_it (test_install.InstallationTests.test_update_foreign_collision_requires_replace_and_remove_restores_it) ... ok
+test_update_prints_existing_transaction_backup_manifest (test_install.InstallationTests.test_update_prints_existing_transaction_backup_manifest) ... ok
 test_update_reconciles_changed_and_retired_assets_then_remove (test_install.InstallationTests.test_update_reconciles_changed_and_retired_assets_then_remove) ... ok
 test_update_repoints_skills_after_source_package_moves (test_install.InstallationTests.test_update_repoints_skills_after_source_package_moves) ... ok
 test_update_rollback_preserves_active_inventory_and_managed_targets (test_install.InstallationTests.test_update_rollback_preserves_active_inventory_and_managed_targets) ... ok
@@ -44,6 +57,6 @@ test_skill_relative_links_resolve (test_package.PackageTests.test_skill_relative
 test_source_manifest_is_not_a_claim_of_host_access (test_package.PackageTests.test_source_manifest_is_not_a_claim_of_host_access) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 1.272s
+Ran 57 tests in 2.531s
 
 OK

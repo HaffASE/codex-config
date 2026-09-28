@@ -95,6 +95,6 @@ test_required_unlinked_document_still_missing (test_source_aware_guards.SourceBu
 test_symlink_input_rejected (test_source_aware_guards.SourceBundleTests.test_symlink_input_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 95 tests in 1.101s
+Ran 95 tests in 1.083s
 
 OK

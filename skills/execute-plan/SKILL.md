@@ -51,7 +51,8 @@ After each slice record changes, command/exit/counts, limitations and next task 
 fully GREEN. A later relevant edit invalidates affected evidence and requires rerun.
 For a long multi-slice task, the coordinator may use a task-local `ledger.json` from
 [the template](../../templates/ledger.example.json) to index slice state and receipts.
-Reconcile it with the current source and evidence before resuming; it grants no authority.
+Record the completion boundary, current verified brief, and any waiting condition with
+its source recheck. Reconcile it with current evidence before resuming; it grants no authority.
 Perform the required independent code review, address validated in-scope defects,
 and run final relevant integration gates on the actual integrated state.
 

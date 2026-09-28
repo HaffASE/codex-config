@@ -566,7 +566,7 @@ def lifecycle_plan(mode: str, inventory: dict, locations: dict[str,str],
 
 
 def lifecycle_execute(mode: str, locations: dict[str,str], active: Path, raw: bytes,
-                      inventory: dict, changes: list[LifecycleChange], records: list[dict]) -> None:
+                      inventory: dict, changes: list[LifecycleChange], records: list[dict]) -> Path:
     codex=Path(locations['codex'])
     lock=codex/'.native-codex-kit.install.lock'
     try:
@@ -628,6 +628,7 @@ def lifecycle_execute(mode: str, locations: dict[str,str], active: Path, raw: by
         raise
     finally:
         lock.unlink(missing_ok=True)
+    return backup/'manifest.json'
 
 
 def lifecycle(args: argparse.Namespace, mode: str) -> int:
@@ -645,8 +646,9 @@ def lifecycle(args: argparse.Namespace, mode: str) -> int:
                 inventory.get('version')==version() and inventory.get('source')==str(ROOT)):
             print('Already up to date.')
             return 0
-        lifecycle_execute(mode,locations,active,raw,inventory,changes,records)
+        manifest=lifecycle_execute(mode,locations,active,raw,inventory,changes,records)
         print('Updated active installation.' if mode=='update' else 'Removed active installation.')
+        print('Transaction backup manifest: '+str(manifest))
     else:
         print('No files changed. Repeat with --apply to '+mode+'.')
     return 0

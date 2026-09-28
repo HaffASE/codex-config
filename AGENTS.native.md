@@ -3,6 +3,8 @@
 Use the smallest workflow that satisfies the task. A trivial clear change does not
 need a plan, interview or agent team. Skills define task methods; native Codex owns
 threads, tools, permissions, Goals and continuation. Do not recreate another runtime.
+Keep agent descriptions about stable, bounded responsibilities; put the current
+task and its authority in the request, and reusable procedures in skills.
 
 The current request defines scope and authorization. Analysis/review/planning is not
 permission to edit product code. Do not commit, push, publish, add dependencies,

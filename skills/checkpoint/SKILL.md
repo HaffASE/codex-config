@@ -5,14 +5,17 @@ description: "Save or resume a task handoff using actual artifacts and current s
 
 # Checkpoint
 
-For save: record objective and current authority; scope/non-goals; plan path/revision;
+For save: record objective, completion boundary and current authority; scope/non-goals; plan path/revision;
 source HEAD plus relevant dirty-content identity; accepted decisions; completed/partial
-slices; fresh receipts; live worker IDs only if actually known; blockers; next smallest
+slices; current verified brief, evidence links and limitations; fresh receipts;
+live worker IDs only if actually known; blockers; next smallest
 action. Update `status.md` in the task's requested folder, normally `.ai/tasks/<slug>/`.
 Reference evidence rather than copying transcripts. Do not include credentials.
 For a long task that benefits from machine-readable progress, the coordinator may
 also keep a task-local `ledger.json` based on [the template](../../templates/ledger.example.json).
 Keep entries descriptive and link evidence; `status.md` remains the readable handoff.
+If waiting on an external condition, record its reference and the source check to run
+before resuming; do not treat an old waiting note as proof that the condition changed.
 
 For resume: read the actual status, plan, decisions and evidence. Recheck current
 source identity, user instructions and authority. Reconcile drift before using old

@@ -2,10 +2,16 @@
   "schema_version": 1,
   "task_id": "replace-with-task-slug",
   "objective": "Describe the authorized task scope",
+  "completion_boundary": "Describe the observable evidence required to finish this task",
   "plan_ref": null,
   "source_ref": {
     "head": null,
     "dirty_snapshot": null
+  },
+  "current_brief": {
+    "verified_state": "",
+    "evidence": [],
+    "limitations": []
   },
   "entries": [
     {
@@ -15,5 +21,6 @@
       "note": ""
     }
   ],
+  "waiting_on": null,
   "next_action": null
 }

@@ -399,6 +399,21 @@ class InstallationTests(unittest.TestCase):
             self.assertEqual((self.codex/'agents/nc_docs.toml').read_bytes(),original_docs)
             self.assertFalse((self.codex/'.native-codex-kit.install.lock').exists())
 
+    def test_update_prints_existing_transaction_backup_manifest(self):
+        kit=self.kit_copy()
+        with patch.object(installer,'ROOT',kit):
+            self.assertEqual(self.run_install('--apply')[0],0)
+            changed=kit/'agents/nc_docs.toml'
+            changed.write_bytes(changed.read_bytes()+b'\n# new kit content\n')
+            rc,out,err=self.run_install('--update','--apply')
+        self.assertEqual(rc,0,err)
+        prefix='Transaction backup manifest: '
+        lines=[line for line in out.splitlines() if line.startswith(prefix)]
+        self.assertEqual(len(lines),1,out)
+        manifest=Path(lines[0][len(prefix):])
+        self.assertTrue(manifest.is_file())
+        self.assertEqual(json.loads(manifest.read_text())['mode'],'update')
+
     def test_doctor_does_not_offer_update_for_identical_unowned_asset(self):
         self.skills.mkdir(parents=True)
         existing=self.skills/'checkpoint'
@@ -474,6 +489,189 @@ class DoctorTests(unittest.TestCase):
             self.assertIn('possible_duplicate_skill',kinds)
             self.assertIn('possible_omx_reference',kinds)
             self.assertNotIn('PRIVATE_SENTINEL',r.stdout+r.stderr)
+
+class FocusedSkillDoctorTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.home=Path(self.tmp.name)/'home'
+        self.home.mkdir()
+        self.codex=self.home/'.codex'
+        self.target=self.home/'.agents/skills/code-review'
+        self.env=dict(os.environ,PATH='')
+
+    def install(self,source=ROOT):
+        result=subprocess.run([sys.executable,str(source/'install.py'),'--home',str(self.home),'--apply'],
+                              capture_output=True,text=True,env=self.env)
+        self.assertEqual(result.returncode,0,result.stderr)
+
+    def focused(self,name='code-review',source=ROOT,*extra):
+        before=installer.fingerprint(self.home)
+        result=subprocess.run([sys.executable,str(source/'doctor.py'),'--home',str(self.home),
+                               '--skill',name,*map(str,extra)],
+                              capture_output=True,text=True,env=self.env)
+        self.assertEqual(installer.fingerprint(self.home),before)
+        self.assertNotIn('Traceback',result.stderr)
+        return result,json.loads(result.stdout)
+
+    def test_missing_skill_before_install_is_unmanaged(self):
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue(report['package_present'])
+        self.assertEqual(report['inventory_state'],'absent')
+        self.assertEqual(report['ownership'],'unmanaged')
+        self.assertEqual(report['managed_target']['state'],'missing')
+        self.assertEqual(report['runtime_discovery'],'not_verified')
+
+    def test_installed_link_is_recorded_and_current(self):
+        self.install()
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(report['inventory_state'],'valid')
+        self.assertEqual(report['ownership'],'recorded')
+        self.assertEqual(report['managed_target']['state'],'link_current')
+        self.assertEqual(report['possible_collisions'],[])
+        self.assertFalse(report['source_bytes_verified'])
+
+    def test_identical_unowned_link_remains_unmanaged_after_install(self):
+        self.target.parent.mkdir(parents=True)
+        self.target.symlink_to(ROOT/'skills/code-review',target_is_directory=True)
+        self.install()
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(report['inventory_state'],'valid')
+        self.assertEqual(report['managed_target']['state'],'link_current')
+        self.assertEqual(report['ownership'],'unmanaged')
+
+    def test_inventory_drift_from_unrelated_agent_or_skill_is_indeterminate(self):
+        self.install()
+        agent=self.codex/'agents/nc_scout.toml'
+        original=agent.read_bytes()
+        agent.write_bytes(original+b'\n# PRIVATE_SENTINEL\n')
+        result,report=self.focused()
+        self.assertEqual(result.returncode,2)
+        self.assertEqual(report['inventory_state'],'drift')
+        self.assertEqual(report['ownership'],'indeterminate')
+        self.assertEqual(report['managed_target']['state'],'indeterminate')
+        self.assertEqual(report['error'],'inventory_validation_failed')
+        self.assertNotIn('PRIVATE_SENTINEL',result.stdout+result.stderr)
+        agent.write_bytes(original)
+
+        self.target.unlink()
+        self.target.symlink_to('/does-not-exist/PRIVATE_SENTINEL',target_is_directory=True)
+        result,report=self.focused()
+        self.assertEqual(result.returncode,2)
+        self.assertEqual(report['inventory_state'],'drift')
+        self.assertEqual(report['managed_target']['state'],'indeterminate')
+        self.assertNotIn('PRIVATE_SENTINEL',result.stdout+result.stderr)
+
+    def test_foreign_directory_and_broken_link_are_reported(self):
+        self.target.mkdir(parents=True)
+        (self.target/'SKILL.md').write_text('custom skill')
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(report['managed_target']['state'],'foreign')
+        self.assertEqual(report['ownership'],'unmanaged')
+        self.assertTrue(any(c['path']==str(self.target.resolve()) for c in report['possible_collisions']))
+
+        shutil.rmtree(self.target)
+        self.target.symlink_to('/does-not-exist/skill',target_is_directory=True)
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(report['managed_target']['state'],'foreign_broken')
+        self.assertTrue(any(c['path']==str(self.home.resolve()/'.agents/skills/code-review')
+                            for c in report['possible_collisions']))
+
+    def test_different_directory_with_same_frontmatter_name_is_a_possible_collision(self):
+        other=self.codex/'skills/different-directory'
+        other.mkdir(parents=True)
+        (other/'SKILL.md').write_text('---\nname: code-review\ndescription: Other\n---\n')
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue(any(c['path']==str(other.resolve()) and 'frontmatter_name' in c['matched_by']
+                            for c in report['possible_collisions']))
+        self.assertEqual(report['collision_verification'],'not_verified')
+
+    def test_indented_frontmatter_name_is_ignored_and_top_level_name_is_recognized(self):
+        root=self.codex/'skills'
+        nested_only=root/'nested-only';nested_only.mkdir(parents=True)
+        (nested_only/'SKILL.md').write_text('---\ndescription: |\n  name: code-review\n---\n')
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertFalse(any(c['path']==str(nested_only.resolve()) for c in report['possible_collisions']))
+
+        top_level=root/'top-level';top_level.mkdir()
+        (top_level/'SKILL.md').write_text(
+            '---\ndescription: |\n  name: unrelated\nname: code-review\n---\n')
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue(any(c['path']==str(top_level.resolve()) and
+                            'frontmatter_name' in c['matched_by']
+                            for c in report['possible_collisions']))
+        self.assertFalse(any(c['path']==str(nested_only.resolve()) for c in report['possible_collisions']))
+
+    def test_repo_agents_symlinked_parent_refuses_without_scanning_target(self):
+        repo=Path(self.tmp.name)/'repo';repo.mkdir()
+        outside=Path(self.tmp.name)/'outside';outside.mkdir()
+        candidate=outside/'skills/misleading';candidate.mkdir(parents=True)
+        (candidate/'SKILL.md').write_text('---\nname: code-review\ndescription: PRIVATE_SENTINEL\n---\n')
+        (repo/'.agents').symlink_to(outside,target_is_directory=True)
+        before=installer.fingerprint(repo)
+        result,report=self.focused('code-review',ROOT,'--repo',repo)
+        self.assertEqual(result.returncode,2)
+        self.assertEqual(report['managed_target']['state'],'indeterminate')
+        self.assertEqual(report['ownership'],'indeterminate')
+        self.assertEqual(report['possible_collisions'],[])
+        self.assertNotIn('PRIVATE_SENTINEL',result.stdout+result.stderr)
+        self.assertEqual(installer.fingerprint(repo),before)
+
+    def test_documented_plain_python_invocation_does_not_create_source_pycache(self):
+        stage=Path(self.tmp.name)/'staged'
+        skill=stage/'skills/code-review';skill.mkdir(parents=True)
+        for name in ('doctor.py','install.py'):
+            shutil.copy2(ROOT/name,stage/name)
+        shutil.copy2(ROOT/'skills/code-review/SKILL.md',skill/'SKILL.md')
+        before=installer.fingerprint(stage)
+        env=dict(self.env)
+        env.pop('PYTHONDONTWRITEBYTECODE',None)
+        env.pop('PYTHONPYCACHEPREFIX',None)
+        result=subprocess.run([sys.executable,str(stage/'doctor.py'),'--home',str(self.home),
+                               '--skill','code-review'],capture_output=True,text=True,env=env)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(json.loads(result.stdout)['managed_target']['state'],'missing')
+        self.assertEqual(installer.fingerprint(stage),before)
+        self.assertFalse((stage/'__pycache__').exists())
+
+    def test_invalid_skill_name_is_rejected_without_path_access(self):
+        result,report=self.focused('../invalid')
+        self.assertEqual(result.returncode,2)
+        self.assertEqual(report['error'],'invalid_skill_name')
+        self.assertIsNone(report['skill'])
+
+    def test_focused_mode_skips_codex_binary_and_config_probe(self):
+        self.codex.mkdir()
+        (self.codex/'config.toml').write_text('agents = "PRIVATE_SENTINEL"\n# omx\n')
+        result,report=self.focused()
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertNotIn('codex_binary',report)
+        self.assertNotIn('findings',report)
+        self.assertNotIn('PRIVATE_SENTINEL',result.stdout+result.stderr)
+        self.assertEqual(report['managed_target']['state'],'missing')
+
+    def test_source_edit_at_same_link_path_is_not_claimed_verified(self):
+        stage=Path(self.tmp.name)/'staged'
+        stage.mkdir()
+        for name in ('skills','agents'):
+            shutil.copytree(ROOT/name,stage/name)
+        for name in ('install.py','doctor.py','VERSION','AGENTS.native.md'):
+            shutil.copy2(ROOT/name,stage/name)
+        self.install(stage)
+        source=stage/'skills/code-review/SKILL.md'
+        source.write_bytes(source.read_bytes()+b'\n# staged edit\n')
+        result,report=self.focused(source=stage)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(report['managed_target']['state'],'link_current')
+        self.assertFalse(report['source_bytes_verified'])
 
 if __name__=='__main__':
     unittest.main()
